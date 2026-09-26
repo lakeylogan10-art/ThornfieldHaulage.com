@@ -1,0 +1,426 @@
+<<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thornfield Haulage VTC | ETS2 & ATS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; }
+        :root {
+            --deep-blue: #0F2B48;
+            --gold: #F5B301;
+            --gold-dark: #d99e00;
+            --discord-blue: #5865F2;
+            --light-grey: #F5F7FA;
+            --dark: #1A1A1A;
+            --success: #22C55E;
+            --error: #EF4444;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 30px rgba(15, 43, 72, 0.15);
+            --radius: 10px;
+        }
+        body { line-height: 1.7; color: #333; background: #fff; }
+        
+        /* Header & Nav */
+        header {
+            background: linear-gradient(rgba(15, 43, 72, 0.92), rgba(15, 43, 72, 0.85)),
+                        url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8314d?w=1600') center/cover no-repeat;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 3rem;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 43, 72, 0.95);
+            z-index: 100;
+        }
+        .logo { 
+            font-size: 1.8rem; font-weight: 800; color: var(--gold); 
+            text-decoration: none; letter-spacing: 0.5px;
+        }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a { 
+            color: white; text-decoration: none; font-weight: 500; 
+            transition: all 0.3s; padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-links a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+        
+        /* Hero Section */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 3rem;
+            max-width: 750px;
+        }
+        .hero h1 { font-size: 3.2rem; margin-bottom: 1.2rem; line-height: 1.2; }
+        .hero span { color: var(--gold); }
+        .hero p { font-size: 1.25rem; margin-bottom: 2.5rem; opacity: 0.95; }
+        .btn {
+            display: inline-block;
+            padding: 0.95rem 2.2rem;
+            background: var(--gold);
+            color: var(--deep-blue);
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 179, 1, 0.35); }
+        .btn-discord {
+            background: var(--discord-blue);
+            color: white;
+            margin-left: 1rem;
+        }
+        .btn-discord:hover { background: #4752c4; box-shadow: 0 6px 20px rgba(88, 101, 242, 0.35); }
+        .btn-submit {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Sections */
+        section { padding: 4.5rem 3rem; }
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            color: var(--deep-blue);
+        }
+        .section-title span { color: var(--gold); }
+        
+        /* About */
+        .about { background: var(--light-grey); }
+        .about-content { max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.1rem; }
+        .about-content p { margin-bottom: 1.2rem; }
+        
+        /* Fleet */
+        .fleet { background: #fff; }
+        .fleet-placeholder {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+            background: var(--light-grey);
+            border-radius: var(--radius);
+        }
+        .fleet-placeholder h3 { color: var(--deep-blue); margin-bottom: 0.8rem; font-size: 1.4rem; }
+        
+        /* Stats */
+        .stats {
+            background: var(--deep-blue);
+            color: white;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .stat { padding: 1.5rem; }
+        .stat h3 { font-size: 3rem; color: var(--gold); font-weight: 800; margin-bottom: 0.3rem; }
+        .stat p { opacity: 0.85; font-size: 1rem; }
+        
+        /* Join / Application Form */
+        .join { background: var(--light-grey); }
+        .join-container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        .join-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .join-intro h3 { color: var(--deep-blue); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .join-intro p { color: #666; }
+        
+        .join-form {
+            background: white;
+            padding: 2.8rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+        }
+        @media (max-width: 520px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .join-form label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--deep-blue);
+        }
+        .join-form label span { color: var(--error); }
+        .join-form input, 
+        .join-form textarea, 
+        .join-form select {
+            width: 100%;
+            padding: 0.95rem 1rem;
+            border: 2px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #FCFDFE;
+        }
+        .join-form input:focus, 
+        .join-form textarea:focus, 
+        .join-form select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(245, 179, 1, 0.15);
+            background: #fff;
+        }
+        .join-form input:invalid:not(:placeholder-shown) { border-color: var(--error); }
+        .join-form textarea { 
+            resize: vertical; min-height: 120px; line-height: 1.6;
+        }
+        .hint {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.4rem;
+        }
+        
+        /* Success Message */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        .success-message.show { display: block; }
+        .success-icon {
+            font-size: 3.5rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            font-size: 0.95rem;
+        }
+        footer a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+        footer a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .discord-footer-link {
+            display: inline-block;
+            background: var(--discord-blue);
+            color: white;
+            padding: 0.7rem 2rem;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .discord-footer-link:hover { background: #4752c4; color: white; text-decoration: none; }
+        
+        /* Mobile */
+        @media(max-width: 768px) {
+            nav { padding: 1rem 1.5rem; flex-direction: column; gap: 1rem; }
+            .nav-links { gap: 1.2rem; }
+            .hero { padding: 0 1.5rem; }
+            .hero h1 { font-size: 2.1rem; }
+            section { padding: 3rem 1.5rem; }
+            .join-form { padding: 1.8rem; }
+            .btn-discord { margin-left: 0; margin-top: 1rem; display: inline-block; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">Thornfield Haulage</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#fleet">Fleet</a></li>
+                <li><a href="#stats">Stats</a></li>
+                <li><a href="#join">Join Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <div class="hero" id="home">
+            <h1>Delivering Across <span>Europe & Beyond</span></h1>
+            <p><strong>Thornfield Haulage</strong> — professional convoys, friendly drivers, and growing together in ETS2 & ATS.</p>
+            <div>
+                <a href="#join" class="btn">Apply Now</a>
+                <a href="https://discord.gg/vBh44Qf8H" target="_blank" class="btn btn-discord">Join Discord Server</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="about" id="about">
+        <h2 class="section-title">About <span>Us</span></h2>
+        <div class="about-content">
+            <p>Thornfield Haulage was built by players, for players. We started with a simple idea — create a VTC that feels like a real family, not just another number.</p>
+            <p>We run organised convoys, share custom liveries, and support each other on every mile. Whether you drive casually a few times a week or live on the open road, you're welcome here.</p>
+            <p><strong>No pressure. Just good hauls and great company.</strong></p>
+        </div>
+    </section>
+
+    <section class="fleet" id="fleet">
+        <h2 class="section-title">Our <span>Fleet</span></h2>
+        <div class="fleet-placeholder">
+            <h3>🚛 Fleet Coming Soon</h3>
+            <p>We're building our official truck list and custom liveries — watch this space!</p>
+            <p style="margin-top: 0.5rem;">Join our Discord to help choose our fleet vehicles.</p>
+        </div>
+    </section>
+
+    <section class="stats" id="stats">
+        <h2 class="section-title">Our <span>Progress</span></h2>
+        <div class="stats-grid">
+            <div class="stat"><h3>1</h3><p>Founding Member</p></div>
+            <div class="stat"><h3>0</h3><p>Deliveries</p></div>
+            <div class="stat"><h3>0</h3><p>Total KM</p></div>
+            <div class="stat"><h3>0</h3><p>Convoys Completed</p></div>
+        </div>
+    </section>
+
+    <section class="join" id="join">
+        <div class="join-container">
+            <h2 class="section-title">Join <span>Thornfield Haulage</span></h2>
+            <div class="join-intro">
+                <h3>Ready to Hit the Road?</h3>
+                <p>Fill in the form below — we review every application personally and reply within 24–48 hours.</p>
+            </div>
+
+            <form class="join-form" id="applicationForm">
+                <!-- Personal Details -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="discordName">Discord Name <span>*</span></label>
+                        <input type="text" id="discordName" name="discordName" placeholder="e.g. loganlakey26" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="discordTag">Discord Tag <span>*</span></label>
+                        <input type="text" id="discordTag" name="discordTag" placeholder="e.g. loganlakey26#0001" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="truckersmp">TruckersMP Profile Link <span>*</span></label>
+                    <input type="url" id="truckersmp" name="truckersmp" placeholder="https://truckersmp.com/user/1234567" required>
+                    <p class="hint">Make sure your profile is set to public so we can verify you</p>
+                </div>
+
+                <!-- Game Info -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="game">Main Game <span>*</span></label>
+                        <select id="game" name="game" required>
+                            <option value="">Select your game…</option>
+                            <option>Euro Truck Simulator 2</option>
+                            <option>American Truck Simulator</option>
+                            <option>Both — ETS2 & ATS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Experience Level</label>
+                        <select id="experience" name="experience">
+                            <option>Brand new driver</option>
+                            <option>Casual — few months</option>
+                            <option>Experienced — 1+ year</option>
+                            <option>Veteran — 3+ years</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Availability -->
+                <div class="form-group">
+                    <label for="availability">Typical Availability</label>
+                    <select id="availability" name="availability">
+                        <option>Weekday evenings</option>
+                        <option>Weekends mostly</option>
+                        <option>Evenings & weekends</option>
+                        <option>Flexible — can make most convoys</option>
+                    </select>
+                </div>
+
+                <!-- About You -->
+                <div class="form-group">
+                    <label for="aboutYou">Tell Us About Yourself <span>*</span></label>
+                    <textarea id="aboutYou" name="aboutYou" placeholder="How long have you been trucking? What do you enjoy most? Why Thornfield Haulage?" required></textarea>
+                </div>
+
+                <!-- Agreement -->
+                <div class="form-group" style="background: var(--light-grey); padding: 1rem; border-radius: 8px;">
+                    <label style="display: flex; align-items: flex-start; gap: 0.7rem; cursor: pointer;">
+                        <input type="checkbox" id="rules" name="rules" required style="width: auto; margin-top: 0.2rem;">
+                        <span style="font-weight: normal; color: #333;">I agree to represent Thornfield Haulage respectfully, follow TruckersMP rules, and join our Discord server <span style="color: var(--error);">*</span></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-submit">🚛 Submit Application</button>
+            </form>
+
+            <!-- Success Screen -->
+            <div class="success-message" id="successScreen">
+                <div class="success-icon">✅</div>
+                <h3 style="color: var(--success); font-size: 1.6rem; margin-bottom: 0.5rem;">Application Received!</h3>
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">Thanks for applying — we'll review it and get back to you via Discord within 48 hours.</p>
+                <p>Make sure you've joined our Discord so we can message you!</p>
+                <a href="https://discord.gg/vBh44Qf8H" target="_blank" class="btn" style="margin-top: 1rem;">Join Discord Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h3 style="color: var(--gold); font-size: 1.5rem; margin-bottom: 0.5rem;">Thornfield Haulage VTC</h3>
+        <p>ETS2 & ATS • Est. 2026</p>
+        <a href="https://discord.gg/vBh44Qf8H" target="_blank" class="discord-footer-link">🎮 discord.gg/vBh44Qf8H</a>
+        <p style="margin-top: 1rem;">Email: <a href="#">contact@thornfieldhaulage.uk</a></p>
+        <p style="margin-top: 2rem; font-size: 0.85rem; opacity: 0.6;">&copy; 2026 Thornfield Haulage. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Form submission handler
+        const form = document.getElementById('applicationForm');
+        const successScreen = document.getElementById('successScreen');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Visual feedback — button state
+            const btn = form.querySelector('.btn-submit');
+            btn.textContent = 'Submitting…';
+            btn.disabled = true;
+            
+            // Simulate send (replace with real form endpoint later)
+            setTimeout(() => {
+                form.style.display = 'none';
+                successScreen.classList.add('show');
+                
+                // Optional: Log form data to console
+                const formData = new FormData(form);
+                console.log('Application submitted:');
+                for (let [key, value] of formData.entries()) {
+                    console.log(`- ${key}: ${value}`);
+                }
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
